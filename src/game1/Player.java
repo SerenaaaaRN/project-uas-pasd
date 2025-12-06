@@ -1,3 +1,4 @@
+package game1;
 public class Player {
     // Definisi Warna
     private static final String RESET = "\u001B[0m";

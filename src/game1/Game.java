@@ -1,3 +1,4 @@
+package game1;
 public class Game {
     private Player player;
     private Story story;
