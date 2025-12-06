@@ -3,33 +3,33 @@ import java.util.Scanner;
 public class Utils {
 
     // Validasi apakah input string hanya berisi angka dan spasi
-    public boolean isValidSequenceFormat(String input) {
-        if (input == null || input.trim().isEmpty()) {
+    public boolean isValudFormatUrutan(String masukan) {
+        if (masukan == null || masukan.trim().isEmpty()) {
             return false;
         }
-        return input.matches("[0-9 ]+");
+        return masukan.matches("[0-9 ]+");
     }
 
-    // Mengubah string input (misal: "1 5 3") menjadi array int
-    public int[] parseSequence(String input) {
+    // Mengubah string input menjadi array int
+    public int[] parseDeret(String masukan) {
         try {
             // Memisahkan berdasarkan satu atau lebih spasi
-            String[] parts = input.trim().split("\\s+");
-            int[] sequence = new int[parts.length];
+            String[] bagian = masukan.trim().split("\\s+");
+            int[] deret = new int[bagian.length];
 
-            for (int i = 0; i < parts.length; i++) {
-                sequence[i] = Integer.parseInt(parts[i]);
+            for (int i = 0; i < bagian.length; i++) {
+                deret[i] = Integer.parseInt(bagian[i]);
             }
-            return sequence;
+            return deret;
         } catch (NumberFormatException e) {
             return new int[0]; // Return array kosong jika gagal parsing
         }
     }
 
     // Helper untuk menghentikan program sejenak (Sleep)
-    public void sleep(int ms) {
+    public void sleep(int milidetik) {
         try {
-            Thread.sleep(ms);
+            Thread.sleep(milidetik);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             System.err.println("Timer interrupted.");
@@ -37,9 +37,9 @@ public class Utils {
     }
 
     // Helper untuk membaca input baris dari user
-    public String readLine(Scanner scanner) {
-        if (scanner.hasNextLine()) {
-            return scanner.nextLine();
+    public String readLine(Scanner pemindai) {
+        if (pemindai.hasNextLine()) {
+            return pemindai.nextLine();
         }
         return "";
     }

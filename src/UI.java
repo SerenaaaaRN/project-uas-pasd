@@ -14,26 +14,26 @@ public class UI {
         System.out.println("========================================" + RESET);
     }
 
-    public void printInfo(String msg) {
-        System.out.println(BLUE + "[INFO] " + RESET + msg);
+    public void printInfo(String pesan) {
+        System.out.println(BLUE + "[INFO] " + RESET + pesan);
     }
 
-    public void printSuccess(String msg) {
-        System.out.println(GREEN + "[SUCCESS] " + RESET + msg);
+    public void printSuccess(String pesan) {
+        System.out.println(GREEN + "[SUCCESS] " + RESET + pesan);
     }
 
-    public void printError(String msg) {
-        System.out.println(RED + "[ERROR] " + RESET + msg);
+    public void printError(String pesan) {
+        System.out.println(RED + "[ERROR] " + RESET + pesan);
     }
 
-    public void printWarning(String msg) {
-        System.out.println(YELLOW + "[!] " + RESET + msg);
+    public void printWarning(String pesan) {
+        System.out.println(YELLOW + "[!] " + RESET + pesan);
     }
 
     public void printMenu() {
         System.out.println("\nPilih Tingkat Kesulitan:");
-        System.out.println("1. Easy (4 Angka)");
-        System.out.println("2. Medium (6 Angka)");
+        System.out.println("1. Easy (3 Angka)");
+        System.out.println("2. Medium (5 Angka)");
         System.out.println("3. Hard (10 Angka)");
         System.out.println("0. Keluar");
         System.out.print("Pilihan Anda: ");

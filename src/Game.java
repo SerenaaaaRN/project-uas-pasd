@@ -1,73 +1,73 @@
 import java.util.Scanner;
 
 public class Game {
-    private final UI ui;
+    private final UI tampilan;
     private final Utils utils;
     private final MemoryEngine engine;
-    private final Scanner scanner;
+    private final Scanner input;
     private boolean isRunning;
 
     public Game() {
-        this.scanner = new Scanner(System.in);
-        this.ui = new UI();
+        this.input = new Scanner(System.in);
+        this.tampilan = new UI();
         this.utils = new Utils();
-        this.engine = new MemoryEngine(ui, utils, scanner);
+        this.engine = new MemoryEngine(tampilan, utils, input);
         this.isRunning = true;
     }
 
     public static void main(String[] args) {
-        Game game = new Game();
-        game.run();
+        Game permainan = new Game();
+        permainan.run();
     }
 
     public void run() {
         while (isRunning) {
             showMenu();
         }
-        scanner.close();
+        input.close();
         System.out.println("Terima kasih telah bermain Memory Game!");
     }
 
     public void showMenu() {
-        ui.printTitle();
-        ui.printMenu();
+        tampilan.printTitle();
+        tampilan.printMenu();
 
-        String input = utils.readLine(scanner);
+        String masukan = utils.readLine(input);
 
-        int choice = -1;
+        int pilihan = -1;
         try {
-            choice = Integer.parseInt(input);
+            pilihan = Integer.parseInt(masukan);
         } catch (NumberFormatException e) {
-            choice = -1;
+            pilihan = -1;
         }
 
-        switch (choice) {
+        switch (pilihan) {
             case 1:
-                ui.printInfo("Mode: Easy");
+                tampilan.printInfo("Mode: Easy");
                 engine.startRound(1);
-                askToPlayAgain();
+                tanyaPlayer();
                 break;
             case 2:
-                ui.printInfo("Mode: Medium");
+                tampilan.printInfo("Mode: Medium");
                 engine.startRound(2);
-                askToPlayAgain();
+                tanyaPlayer();
                 break;
             case 3:
-                ui.printInfo("Mode: Hard");
+                tampilan.printInfo("Mode: Hard");
                 engine.startRound(3);
-                askToPlayAgain();
+                tanyaPlayer();
                 break;
             case 0:
                 isRunning = false;
                 break;
             default:
-                ui.printError("Pilihan tidak valid. Silakan coba lagi.");
+                tampilan.printError("Pilihan tidak valid. Silakan coba lagi.");
                 utils.sleep(1500);
         }
     }
 
-    private void askToPlayAgain() {
+    private void tanyaPlayer() {
         System.out.println("\nTekan [ENTER] untuk kembali ke menu utama...");
-        utils.readLine(scanner);
+        utils.readLine(input);
     }
 }
