@@ -22,7 +22,7 @@ public class Story {
         this.random = new Random();
     }
 
-    public boolean playScene(int locationIndex, Player player) {
+    public int playScene(int locationIndex, Player player) {
         switch (locationIndex) {
             case 0:
                 return sceneGerbang(player);
@@ -37,7 +37,7 @@ public class Story {
             case 5:
                 return sceneFasilkom(player);
             default:
-                return true;
+                return -1; // End game if location is unknown
         }
     }
 
@@ -46,7 +46,7 @@ public class Story {
     }
 
     // --- SCENE 1: GERBANG (Easter Egg Added) ---
-    private boolean sceneGerbang(Player p) {
+    private int sceneGerbang(Player p) {
         printDivider();
         System.out.println(PURPLE + "📍 LOKASI: GERBANG KAMPUS" + RESET);
         System.out.println("Di pojok gerbang, kamu melihat seekor kucing kampus (Kucing Oren) sedang tidur.");
@@ -57,23 +57,32 @@ public class Story {
         if (scanner.nextLine().equals("1")) {
             System.out.println(GREEN + "\n🐈 Kucing itu mengeong senang! 'Meong!'" + RESET);
             System.out.println("Kamu merasa diberkati dewa kucing. (Defense +5 Permanen!)");
-            // Disini kita akali defense naik lewat HP buff atau sekedar flavor text kalau
-            // di Player ga ada setter defense
-            // Asumsi sederhana: HP full heal + semangat
-            p.setHp(100);
+            p.setDefense(p.getDefense() + 5);
         }
 
         System.out.println("\nKamu bertemu Kating.");
-        System.out.println("[Kating]: 'Ke Fasilkom? Lewat Ekonomi dulu sana, nih bekal.'");
+        System.out.println("[Kating]: 'Ke Fasilkom? Lewat Ekonomi dulu sana, atau mau coba jalan pintas lewat Teknik?'");
         System.out.println(GREEN + "Dapat Roti! (HP +10)" + RESET);
         p.setHp(p.getHp() + 10);
 
+        System.out.println("\nOpsi Rute:");
+        System.out.println("1. Lewat Ekonomi (Jalan biasa)");
+        System.out.println("2. Lewat Teknik (Jalan pintas, lebih berbahaya!)");
+        System.out.print("Pilihanmu: ");
+        String choice = scanner.nextLine();
+
         promptEnter();
-        return true;
+
+        if (choice.equals("2")) {
+            System.out.println("Kamu memilih jalan pintas...");
+            return 3; // Next scene: Teknik
+        }
+        System.out.println("Kamu memilih jalan biasa...");
+        return 1; // Next scene: Ekonomi
     }
 
     // --- SCENE 2: EKONOMI (Branch: Fight vs Bayar) ---
-    private boolean sceneEkonomi(Player p) {
+    private int sceneEkonomi(Player p) {
         printDivider();
         System.out.println(PURPLE + "📍 LOKASI: FAKULTAS EKONOMI" + RESET);
         System.out.println("Koor Divisi Danus mencegatmu. Dia memegang kotak sumbangan.");
@@ -81,24 +90,32 @@ public class Story {
 
         System.out.println("\nOpsi:");
         System.out.println("1. 'Gak punya duit bang!' (Ajak Berantem)");
-        System.out.println("2. Bayar aja biar cepet (Skip Battle, HP -15 karena nggak makan siang)");
+        System.out.println("2. Bayar Rp50 (Skip Battle)");
 
-        if (scanner.nextLine().equals("2")) {
-            System.out.println(YELLOW + "\nKamu memberikan uang saku terakhirmu..." + RESET);
-            System.out.println("Koor Danus minggir sambil tersenyum licik.");
-            System.out.println(RED + "Kamu kelaparan. HP berkurang 15." + RESET);
-            p.setHp(p.getHp() - 15);
-            promptEnter();
-            return true;
+        String choice = scanner.nextLine();
+
+        if (choice.equals("2")) {
+            if (p.getMoney() >= 50) {
+                System.out.println(YELLOW + "\nKamu membayar Rp50 dan Koor Danus pun minggir." + RESET);
+                p.setMoney(p.getMoney() - 50);
+                promptEnter();
+                return 2; // Next scene: Hukum
+            } else {
+                System.out.println(RED + "\nUangmu tidak cukup! Koor Danus marah." + RESET);
+            }
         }
 
-        // Kalau pilih 1, Battle
+        // Kalau pilih 1 atau uang tidak cukup, Battle
         System.out.println(CYAN + "\n[Danus]: 'Pelit amat lu! Sini ribut!'" + RESET);
-        return battleSystem.fight(p, "Koor Danus", 45, 10, 2);
+        if (battleSystem.fight(p, "Koor Danus", 45, 10, 2)) {
+            return 2; // Win battle, next scene: Hukum
+        } else {
+            return -1; // Lose battle, game over
+        }
     }
 
     // --- SCENE 3: HUKUM (Branch: Fight vs Kabur/Diplomasi) ---
-    private boolean sceneHukum(Player p) {
+    private int sceneHukum(Player p) {
         printDivider();
         System.out.println(PURPLE + "📍 LOKASI: FAKULTAS HUKUM" + RESET);
         System.out.println("Dosen Bajupink sedang orasi di lorong.");
@@ -113,17 +130,19 @@ public class Story {
             System.out.println(YELLOW + "\nKamu kejang-kejang di lantai..." + RESET);
             System.out.println("Dosen bingung: 'Waduh, bawa ke klinik! Jangan di sini!'");
             System.out.println("Kamu berhasil lolos, tapi harga dirimu hancur.");
-            System.out.println(
-                    "(Tidak ada penalti HP, tapi Good Ending mungkin lebih susah dicapai kalau HP tidak full)");
             promptEnter();
-            return true;
+            return 3; // Next scene: Teknik
         }
 
-        return battleSystem.fight(p, "Dosen Bajupink", 50, 12, 3);
+        if (battleSystem.fight(p, "Dosen Bajupink", 50, 12, 3)) {
+            return 3; // Win battle, next scene: Teknik
+        } else {
+            return -1; // Lose battle, game over
+        }
     }
 
     // --- SCENE 4: TEKNIK (Puzzle Branching) ---
-    private boolean sceneTeknik(Player p) {
+    private int sceneTeknik(Player p) {
         printDivider();
         System.out.println(PURPLE + "📍 LOKASI: FAKULTAS TEKNIK" + RESET);
         System.out.println("Ada Robot Penjaga. Di sebelahnya ada PC rusak.");
@@ -140,25 +159,30 @@ public class Story {
             if (random.nextBoolean()) {
                 System.out.println(GREEN + "BERHASIL! Kamu meretas sistem robot!" + RESET);
                 System.out.println("Robot itu mati sendiri. Kamu dapat item 'Obeng Sakti'.");
+                p.addItem("Obeng Sakti");
                 System.out.println(GREEN + "HP Recovery +20" + RESET);
                 p.setHp(p.getHp() + 20);
                 promptEnter();
-                return true; // Skip battle & Win
+                return 4; // Skip battle & Win, next scene: Kedokteran
             } else {
                 System.out.println(RED + "GAGAL! PC Meledak!" + RESET);
                 System.out.println("HP -20. Dan Robotnya sadar kamu penyusup!");
                 p.setHp(p.getHp() - 20);
                 if (!p.isAlive())
-                    return false;
+                    return -1; // Player died from explosion
             }
         }
 
         System.out.println(CYAN + "\n[Robot]: 'EXTERMINATE!'" + RESET);
-        return battleSystem.fight(p, "Robot Proyek Gagal", 65, 14, 5);
+        if (battleSystem.fight(p, "Robot Proyek Gagal", 65, 14, 5)) {
+            return 4; // Win battle, next scene: Kedokteran
+        } else {
+            return -1; // Lose battle, game over
+        }
     }
 
     // --- SCENE 5: KEDOKTERAN (Wajib Battle tapi ada gimmick) ---
-    private boolean sceneKedokteran(Player p) {
+    private int sceneKedokteran(Player p) {
         printDivider();
         System.out.println(PURPLE + "📍 LOKASI: FAKULTAS KEDOKTERAN" + RESET);
         System.out.println("Hantu Skeleton menghadang. Ini rintangan terakhir sebelum Fasilkom!");
@@ -181,39 +205,60 @@ public class Story {
         }
 
         if (!p.isAlive())
-            return false;
+            return -1; // Player died from formalin
 
-        return battleSystem.fight(p, "Anatomi Skeleton", enemyHp, enemyAtk, 4);
+        if (battleSystem.fight(p, "Anatomi Skeleton", enemyHp, enemyAtk, 4)) {
+            return 5; // Win battle, next scene: Fasilkom
+        } else {
+            return -1; // Lose battle, game over
+        }
     }
 
     // --- ENDING ---
-    private boolean sceneFasilkom(Player p) {
+    private int sceneFasilkom(Player p) {
         printDivider();
         System.out.println(PURPLE + "📍 LOKASI: FASILKOM" + RESET);
         int finalHp = p.getHp();
+        boolean hasObeng = p.hasItem("Obeng Sakti");
+
         System.out.println("HP Akhir: " + finalHp);
+        if (hasObeng) {
+            System.out.println(CYAN + "Kamu membawa 'Obeng Sakti' milik anak Teknik..." + RESET);
+        }
+
 
         if (finalHp > 70) {
             System.out.println(GREEN + "🏆 GOOD ENDING: MAHASISWA TELADAN 🏆" + RESET);
             System.out.println("Kamu masuk Fasilkom dengan sehat walafiat.");
             System.out.println("Langsung dapet IP 4.0 di semester satu!");
+            if (hasObeng) {
+                System.out.println("Berkat 'Obeng Sakti', kamu juga jadi jago ngoprek dan buka jasa servis laptop.");
+            }
         } else if (finalHp > 20) {
             System.out.println(YELLOW + "😐 NEUTRAL ENDING: MAHASISWA KUPU-KUPU 😐" + RESET);
             System.out.println("Kamu lolos, tapi capek banget.");
-            System.out.println("Kuliah, Pulang, Kuliah, Pulang. Yang penting lulus.");
+            if (hasObeng) {
+                System.out.println("Tapi berkat 'Obeng Sakti', kamu jadi teknisi andalan di kosan dan dapet banyak teman!");
+            } else {
+                System.out.println("Kuliah, Pulang, Kuliah, Pulang. Yang penting lulus.");
+            }
         } else {
             System.out.println(RED + "☠️ BAD ENDING: DROP OUT DINI ☠️" + RESET);
             System.out.println("Baru masuk gerbang Fasilkom, kamu pingsan dan dilarikan ke RS.");
-            System.out.println("Orang tua menyuruhmu pindah jurusan ke Tata Boga.");
+            if (hasObeng) {
+                System.out.println("Saat di RS, kamu iseng memperbaiki mesin EKG rusak dengan 'Obeng Sakti'. Kamu direkrut jadi teknisi rumah sakit dan kaya raya. Gagal jadi programmer, sukses jadi tukang servis.");
+            } else {
+                System.out.println("Orang tua menyuruhmu pindah jurusan ke Tata Boga.");
+            }
         }
-        return true;
+        return -1; // End the game
     }
 
     public void printBadEndingBattle() {
         System.out.println(RED + "\n💀 GAME OVER 💀" + RESET);
         System.out.println("Perjuanganmu terhenti di tengah jalan.");
     }
-
+    
     private void promptEnter() {
         System.out.println(YELLOW + "Tekan ENTER untuk lanjut..." + RESET);
         scanner.nextLine();
