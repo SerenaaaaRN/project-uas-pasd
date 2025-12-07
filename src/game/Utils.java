@@ -1,9 +1,11 @@
+package game;
 import java.util.Scanner;
 
 public class Utils {
+    static Scanner input = new Scanner(System.in);
 
     // Validasi apakah input string hanya berisi angka dan spasi
-    public boolean isValudFormatUrutan(String masukan) {
+    public static boolean isValudFormatUrutan(String masukan) {
         if (masukan == null || masukan.trim().isEmpty()) {
             return false;
         }
@@ -11,7 +13,7 @@ public class Utils {
     }
 
     // Mengubah string input menjadi array int
-    public int[] parseDeret(String masukan) {
+    public static int[] parseDeret(String masukan) {
         try {
             // Memisahkan berdasarkan satu atau lebih spasi
             String[] bagian = masukan.trim().split("\\s+");
@@ -27,7 +29,7 @@ public class Utils {
     }
 
     // Helper untuk menghentikan program sejenak (Sleep)
-    public void sleep(int milidetik) {
+    public static void sleep(int milidetik) {
         try {
             Thread.sleep(milidetik);
         } catch (InterruptedException e) {
@@ -37,9 +39,9 @@ public class Utils {
     }
 
     // Helper untuk membaca input baris dari user
-    public String readLine(Scanner pemindai) {
-        if (pemindai.hasNextLine()) {
-            return pemindai.nextLine();
+    public static String readLine() {
+        if (input.hasNextLine()) {
+            return input.nextLine();
         }
         return "";
     }
