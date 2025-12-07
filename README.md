@@ -20,9 +20,9 @@ Pastikan Java telah terinstal di komputer Anda.
 
 1. Menu Utama
    Pemain disajikan tiga tingkat kesulitan:
-   - Mudah: 4 angka (waktu hafal 3 detik)
-   - Sedang: 6 angka (waktu hafal 4 detik)
-   - Sulit: 10 angka (waktu hafal 5 detik)
+   - Mudah: 3 angka (waktu hafal 5 detik)
+   - Sedang:5 angka (waktu hafal 10 detik)
+   - Sulit: 10 angka (waktu hafal 20 detik)
 
 2. Fase Menghafal
    Program menampilkan deretan angka acak dari 0–99.

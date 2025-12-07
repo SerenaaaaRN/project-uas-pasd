@@ -3,13 +3,6 @@ package game;
 public class Game {
     static boolean isRunning;
 
-    public void run() {
-        while (isRunning) {
-            showMenu();
-        }
-        System.out.println("Terima kasih telah bermain Memory Game!");
-    }
-
     public void showMenu() {
         UI.printTitle();
         UI.printMenu();
@@ -51,6 +44,13 @@ public class Game {
                 UI.printError("Pilihan tidak valid. Silakan coba lagi.");
                 Utils.sleep(1500);
         }
+    }
+
+    public void run() {
+        while (isRunning) {
+            showMenu();
+        }
+        System.out.println("Terima kasih telah bermain Memory Game!");
     }
 
     private void tanyaPlayer() {
