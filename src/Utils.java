@@ -4,7 +4,7 @@ public class Utils {
     static Scanner input = new Scanner(System.in);
 
     // Validasi apakah input string hanya berisi angka dan spasi
-    public static boolean isValudFormatUrutan(String masukan) {
+    public static boolean isValidFormatUrutan(String masukan) {
         if (masukan == null || masukan.trim().isEmpty()) {
             return false;
         }

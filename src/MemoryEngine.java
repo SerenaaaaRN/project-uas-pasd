@@ -31,7 +31,7 @@ public class MemoryEngine {
 
         String input = getUserInput();
 
-        boolean jikaBenar = evaluate(deretRahasia, input);
+        boolean jikaBenar = bandingkan(deretRahasia, input);
 
         UI.printSeparator();
         if (jikaBenar) {
@@ -50,7 +50,7 @@ public class MemoryEngine {
     public static int[] generateDer(int length) {
         int[] seq = new int[length];
         for (int i = 0; i < length; i++) {
-            seq[i] = random.nextInt(100); // Angka 0-99 agar tidak terlalu sulit
+            seq[i] = random.nextInt(100); // Angka 0-99 
         }
         return seq;
     }
@@ -76,7 +76,7 @@ public class MemoryEngine {
             Utils.sleep(1000); // Sleep 1 detik
         }
 
-        // Sembunyikan angka!
+        // Sembunyikan angka
         UI.clearScreen();
         UI.printInfo("WAKTU HABIS! Layar dibersihkan.");
     }
@@ -89,15 +89,15 @@ public class MemoryEngine {
     }
 
     // Membandingkan jawaban user dengan kunci jawaban
-    public static boolean evaluate(int[] seq, String userInput) {
-        if (!Utils.isValudFormatUrutan(userInput)) {
+    public static boolean bandingkan(int[] seq, String userInput) {
+        if (!Utils.isValidFormatUrutan(userInput)) {
             UI.printWarning("Format input salah! Pastikan hanya memasukkan angka dan spasi.");
             return false;
         }
 
         int[] userSeq = Utils.parseDeret(userInput);
 
-        // Cek panjang array dulu
+        // Cek panjang array
         if (seq.length != userSeq.length) {
             return false;
         }
