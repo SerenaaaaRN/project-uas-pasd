@@ -3,11 +3,6 @@ package game;
 public class Game {
     static boolean isRunning;
 
-    public static void main(String[] args) {
-        Game permainan = new Game();
-        permainan.run();
-    }
-
     public void run() {
         while (isRunning) {
             showMenu();
@@ -61,5 +56,10 @@ public class Game {
     private void tanyaPlayer() {
         System.out.println("\nTekan [ENTER] untuk kembali ke menu utama...");
         Utils.readLine();
+    }
+
+    public static void main(String[] args) {
+        Game permainan = new Game();
+        permainan.run();
     }
 }
