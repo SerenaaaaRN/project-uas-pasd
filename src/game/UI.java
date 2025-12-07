@@ -37,8 +37,8 @@ public class UI {
         System.out.println("[2] Medium (5 Angka)");
         System.out.println("[3] Hard (10 Angka)");
         System.out.println("[4] Khusus Adit (50 Angka)");
-        System.out.println("0. Keluar");
-        System.out.print("Pilihan Anda: ");
+        System.out.println("[0] Keluar");
+        System.out.print("Masukkan Pilihan: ");
     }
 
     public static void clearScreen() {

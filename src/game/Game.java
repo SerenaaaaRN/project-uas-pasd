@@ -1,11 +1,7 @@
 package game;
 
 public class Game {
-    private boolean isRunning;
-
-    public Game() {
-        this.isRunning = true;
-    }
+    static boolean isRunning;
 
     public static void main(String[] args) {
         Game permainan = new Game();
