@@ -10,9 +10,9 @@ public class UI {
 
     public static void printTitle() {
         clearScreen();
-        System.out.println(CYAN + "========================================");
-        System.out.println("      M E M O R Y   G A M E   C L I     ");
-        System.out.println("========================================" + RESET);
+        System.out.println(CYAN + "======================================");
+        System.out.println("       M E M O R Y   G A M E        ");
+        System.out.println("======================================" + RESET);
     }
 
     public static void printInfo(String pesan) {
@@ -36,7 +36,6 @@ public class UI {
         System.out.println("[1] Easy (3 Angka)");
         System.out.println("[2] Medium (5 Angka)");
         System.out.println("[3] Hard (10 Angka)");
-        System.out.println("[4] Khusus Adit (50 Angka)");
         System.out.println("[0] Keluar");
         System.out.print("Masukkan Pilihan: ");
     }

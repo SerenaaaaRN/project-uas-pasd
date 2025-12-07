@@ -32,11 +32,6 @@ public class Game {
                 MemoryEngine.startRound(3);
                 tanyaPlayer();
                 break;
-            case 4:
-                UI.printError("Mode: Khusus Adit");
-                MemoryEngine.startRound(4);
-                tanyaPlayer();
-                break;
             case 0:
                 isRunning = false;
                 break;

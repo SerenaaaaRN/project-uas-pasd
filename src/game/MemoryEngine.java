@@ -22,10 +22,6 @@ public class MemoryEngine {
                 length = 10;
                 durationSec = 20;
                 break;
-            case 4:
-                length = 50;
-                durationSec = 60;
-                break;
             default:
                 length = 4;
                 durationSec = 11;
