@@ -1,7 +1,7 @@
 package game;
 
 public class Game {
-    static boolean isRunning;
+    static boolean isRunning = true;
 
     public void showMenu() {
         UI.printTitle();
