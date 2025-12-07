@@ -1,5 +1,3 @@
-package game;
-
 public class Game {
     static boolean isRunning = true;
 
